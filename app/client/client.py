@@ -11,9 +11,5 @@ def run():
         print("Response: {} -- Score: {}".format(response.response, response.score))
 
 
-def close(channel):
-    channel.close()
-
-
 if __name__ == "__main__":
     run()
