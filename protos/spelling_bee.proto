@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+service SpellingBeeService {
+    rpc getWord (GetWord) returns (ReceiveWord) {}
+}
+
+message GetWord {
+    string get_word = 1;
+}
+
+message ReceiveWord {
+    string rec_word = 1;
+}
