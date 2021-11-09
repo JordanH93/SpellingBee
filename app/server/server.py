@@ -7,11 +7,12 @@ import spelling_bee_pb2_grpc
 class Listener(spelling_bee_pb2_grpc.SpellingBeeServiceServicer):
 
     def getWord(self, request, context):
-        server_word = "word false"
+        is_valid_word = False
+        score = 5
         if request.get_word == "client":
-            server_word = "Word true"
+            is_valid_word = True
 
-        return spelling_bee_pb2.ReceiveWord(rec_word=server_word)
+        return spelling_bee_pb2.Response(response=is_valid_word, score=score)
 
 
 def serve():

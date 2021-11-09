@@ -1,13 +1,14 @@
 syntax = "proto3";
 
 service SpellingBeeService {
-    rpc getWord (GetWord) returns (ReceiveWord) {}
+    rpc getWord (GetWord) returns (Response) {}
 }
 
 message GetWord {
     string get_word = 1;
 }
 
-message ReceiveWord {
-    string rec_word = 1;
+message Response {
+    bool response = 1;
+    int32  score = 2;
 }

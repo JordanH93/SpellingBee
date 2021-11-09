@@ -17,7 +17,7 @@ class SpellingBeeServiceStub(object):
         self.getWord = channel.unary_unary(
                 '/SpellingBeeService/getWord',
                 request_serializer=spelling__bee__pb2.GetWord.SerializeToString,
-                response_deserializer=spelling__bee__pb2.ReceiveWord.FromString,
+                response_deserializer=spelling__bee__pb2.Response.FromString,
                 )
 
 
@@ -36,7 +36,7 @@ def add_SpellingBeeServiceServicer_to_server(servicer, server):
             'getWord': grpc.unary_unary_rpc_method_handler(
                     servicer.getWord,
                     request_deserializer=spelling__bee__pb2.GetWord.FromString,
-                    response_serializer=spelling__bee__pb2.ReceiveWord.SerializeToString,
+                    response_serializer=spelling__bee__pb2.Response.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -61,6 +61,6 @@ class SpellingBeeService(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/SpellingBeeService/getWord',
             spelling__bee__pb2.GetWord.SerializeToString,
-            spelling__bee__pb2.ReceiveWord.FromString,
+            spelling__bee__pb2.Response.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

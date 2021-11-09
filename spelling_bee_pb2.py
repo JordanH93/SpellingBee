@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x12spelling_bee.proto\"\x1b\n\x07GetWord\x12\x10\n\x08get_word\x18\x01 \x01(\t\"\x1f\n\x0bReceiveWord\x12\x10\n\x08rec_word\x18\x01 \x01(\t29\n\x12SpellingBeeService\x12#\n\x07getWord\x12\x08.GetWord\x1a\x0c.ReceiveWord\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x12spelling_bee.proto\"\x1b\n\x07GetWord\x12\x10\n\x08get_word\x18\x01 \x01(\t\"+\n\x08Response\x12\x10\n\x08response\x18\x01 \x01(\x08\x12\r\n\x05score\x18\x02 \x01(\x05\x32\x36\n\x12SpellingBeeService\x12 \n\x07getWord\x12\x08.GetWord\x1a\t.Response\"\x00\x62\x06proto3'
 )
 
 
@@ -57,18 +57,25 @@ _GETWORD = _descriptor.Descriptor(
 )
 
 
-_RECEIVEWORD = _descriptor.Descriptor(
-  name='ReceiveWord',
-  full_name='ReceiveWord',
+_RESPONSE = _descriptor.Descriptor(
+  name='Response',
+  full_name='Response',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='rec_word', full_name='ReceiveWord.rec_word', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
+      name='response', full_name='Response.response', index=0,
+      number=1, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='score', full_name='Response.score', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -85,11 +92,11 @@ _RECEIVEWORD = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=51,
-  serialized_end=82,
+  serialized_end=94,
 )
 
 DESCRIPTOR.message_types_by_name['GetWord'] = _GETWORD
-DESCRIPTOR.message_types_by_name['ReceiveWord'] = _RECEIVEWORD
+DESCRIPTOR.message_types_by_name['Response'] = _RESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 GetWord = _reflection.GeneratedProtocolMessageType('GetWord', (_message.Message,), {
@@ -99,12 +106,12 @@ GetWord = _reflection.GeneratedProtocolMessageType('GetWord', (_message.Message,
   })
 _sym_db.RegisterMessage(GetWord)
 
-ReceiveWord = _reflection.GeneratedProtocolMessageType('ReceiveWord', (_message.Message,), {
-  'DESCRIPTOR' : _RECEIVEWORD,
+Response = _reflection.GeneratedProtocolMessageType('Response', (_message.Message,), {
+  'DESCRIPTOR' : _RESPONSE,
   '__module__' : 'spelling_bee_pb2'
-  # @@protoc_insertion_point(class_scope:ReceiveWord)
+  # @@protoc_insertion_point(class_scope:Response)
   })
-_sym_db.RegisterMessage(ReceiveWord)
+_sym_db.RegisterMessage(Response)
 
 
 
@@ -115,8 +122,8 @@ _SPELLINGBEESERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=84,
-  serialized_end=141,
+  serialized_start=96,
+  serialized_end=150,
   methods=[
   _descriptor.MethodDescriptor(
     name='getWord',
@@ -124,7 +131,7 @@ _SPELLINGBEESERVICE = _descriptor.ServiceDescriptor(
     index=0,
     containing_service=None,
     input_type=_GETWORD,
-    output_type=_RECEIVEWORD,
+    output_type=_RESPONSE,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
