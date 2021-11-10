@@ -3,8 +3,8 @@ import os
 
 """ Get relative paths to files"""
 dirname = os.path.dirname(__file__)
-DICTIONARY_PATH = os.path.join(dirname, "words_dictionary.json")
-PANGRAMS_PATH = os.path.join(dirname, "pangrams.json")
+DICTIONARY_PATH = os.path.join(dirname, "persistence/words_dictionary.json")
+PANGRAMS_PATH = os.path.join(dirname, "persistence/pangrams.json")
 
 
 

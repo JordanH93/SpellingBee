@@ -1,9 +1,14 @@
 from app.server import dictionary
 from random import randint
 
-test1 = dictionary.PangramDictionary()
-pangrams = test1.pangrams
 
+test1 = dictionary.PangramDictionary()
+
+""" test singleton """
+#test2 = dictionary.PangramDictionary()
+
+# test pangrams generation
+pangrams = test1.pangrams
 
 # Pick a random pangram
 rand_num = randint(0, len(pangrams))
