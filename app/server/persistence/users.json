@@ -1,0 +1,24 @@
+{
+    "user_details": [
+        {
+            "name": "Jordan",
+            "email": "jordan.hennessy@mycit.ie",
+            "password": "b'UGFzc3cwcmQxIQ=='"
+        },
+        {
+            "Name": "John",
+            "email": "john@gmail.com",
+            "password": "b'UGFzc3cwcmQxIQ=='"
+        },
+        {
+            "Name": "John",
+            "email": "john@gmail.com",
+            "password": "b'UGFzc3cwcmQxIQ=='"
+        },
+        {
+            "Name": "John",
+            "email": "john@gmail.com",
+            "password": "b'UGFzc3cwcmQxIQ=='"
+        }
+    ]
+}
