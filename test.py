@@ -140,7 +140,7 @@ val.select_difficulty()
 """
 
 # Test populate list and print
-
+"""
 mlist = []
 count = 5
 while count != 0:
@@ -151,3 +151,10 @@ while count != 0:
 for i in mlist:
     print(i)
 #print(mlist)
+"""
+
+# test set subset
+set1 = {'h', 'g', 'f', 'd', 'a'}
+set2 = {'h', 'g', 'f', 'd', 'a'}
+
+print(set2.issubset(set1))

@@ -33,16 +33,17 @@ class Listener(spelling_bee_pb2_grpc.SpellingBeeServiceServicer):
         return spelling_bee_pb2.Game(score=self.score)
 
     def getWord(self, request, context):
-        word = generate_word(self.pangram_dict.pangrams)
-        return spelling_bee_pb2.Word(word=word)
+        word, rand_char = generate_word(self.pangram_dict.pangrams)
+        return spelling_bee_pb2.Word(word=word, rand_char=rand_char)
 
 
 def generate_word(self):
     rand_num = randint(0, len(self))
     random_pangram = list(self.keys())[rand_num]
-    print(random_pangram)
+    rand_char = "".join(set(random_pangram[randint(0, len(random_pangram))]))
     word = "".join(set(random_pangram))
-    return word
+    print("app.server.server.generate_word: Chosen Pangram = {}".format(random_pangram))
+    return word, rand_char
 
 
 def serve():

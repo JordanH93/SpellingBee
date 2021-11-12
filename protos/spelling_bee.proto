@@ -12,6 +12,7 @@ message GetWord {
 
 message Word {
     string word = 1;
+    string rand_char = 2;
 }
 
 message GetGame {

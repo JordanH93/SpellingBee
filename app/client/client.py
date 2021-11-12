@@ -27,20 +27,23 @@ class Client:
         self.score = 0
         self.words = []
         self.show_words = False
+        self.given_chars = None
+        self.rand_char = None
 
     def run(self):
         difficulty = self.select_difficulty()
         self.score = self.create_game(difficulty)
-        dashboard = """
-        Score: {}
-        Options: (Q)uit -- (W)ords
-        """.format(self.score)
+        response = self.get_word(" ")
+        #response = set(self.get_word(" "))
+        self.given_chars = set(response.word)
+        self.rand_char = response.rand_char
+        #print(self.rand_char)
+
         while True:
             self.clear()
-            print(BANNER)
-            print(dashboard)
-            print("Letters = {}".format(set(self.get_word(" "))))
-            word = input(">>")
+            self.banner()
+
+            word = self.validate_input()
             resp = self.submit_word(word)
             print(resp.response)
             break
@@ -68,7 +71,7 @@ class Client:
         with grpc.insecure_channel("localhost:9999") as channel:
             stub = spelling_bee_pb2_grpc.SpellingBeeServiceStub(channel)
             response = stub.getWord(spelling_bee_pb2.GetWord(request=empty_string))
-            return response.word
+            return response
 
     # 1. Using 150 line breaks instead of clear because cls does not work on some IDEs
     # - Can turn off if too annoying
@@ -101,12 +104,21 @@ class Client:
         Options: (Q)uit -- (W)ords
         """.format(self.score)
         print(BANNER)
+        letters = ""
         if self.show_words:
             self.print_word_list()
         print(dashboard)
+        for i in self.given_chars:
+            if i == self.rand_char:
+                letters += "[{}]".format(i)
+            else:
+                letters += i
+        print("Letters: {}".format(letters))
 
     def validate_input(self):
         while True:
+            self.clear()
+            self.banner()
             choice = input(">> ").lower()
             if choice.isalpha():
                 if choice == 'q':
@@ -121,8 +133,18 @@ class Client:
                 elif len(choice) < 4:
                     input("Word must be more than 4 characters\nPress enter to continue.")
                     continue
+                elif not set(choice).issubset(self.given_chars):
+                    input("Word must contain only given characters\nPress enter to continue.")
+                    continue
+                elif choice in self.words:
+                    input("Word must not have already been used.\nPress enter to continue.")
+                    continue
+                elif self.rand_char not in choice:
+                    input("Word must contain '{}'.\nPress enter to continue.".format(self.rand_char))
+                    continue
                 else:
-                    print("nothing here yet")
+                    return choice
+
 
     def print_word_list(self):
         for i in self.words:

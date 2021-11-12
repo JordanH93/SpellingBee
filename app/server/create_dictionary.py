@@ -7,19 +7,18 @@ To do:
 a pangram
 """
 
+
 class CreateDictionary:
     def __init__(self, word_len, dictionary):
         self.pangrams = {}
         self.length = word_len
 
-        words = dictionary
-        for word in words:
-            if is_pangram(self, word):
+        for word in dictionary:
+            if self.is_pangram(word):
                 self.pangrams[word] = ""
 
-
-def is_pangram(self, word_in):
-    if len(set(word_in)) == self.length and 's' not in word_in:
-        return True
-    else:
-        return False
+    def is_pangram(self, word_in):
+        if len(set(word_in)) == self.length and 's' not in word_in:
+            return True
+        else:
+            return False
