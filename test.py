@@ -6,6 +6,7 @@ import json
 from app.objects import user
 from app.server import connections
 from app.server import spelling_bee_factory
+from app.client import validation
 
 # test singleton
 """ 
@@ -130,3 +131,23 @@ print(set)
 newStr = "".join(set)
 print(newStr)
 """
+#test validate class
+"""
+x = 1
+print("line of text \n" * 5)
+val = validation.Validate()
+val.select_difficulty()
+"""
+
+# Test populate list and print
+
+mlist = []
+count = 5
+while count != 0:
+    get_input = input("Enter something: ")
+    mlist.append(get_input)
+    count -= 1
+
+for i in mlist:
+    print(i)
+#print(mlist)
