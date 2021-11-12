@@ -5,6 +5,7 @@ from random import randint
 import json
 from app.objects import user
 from app.server import connections
+from app.server import spelling_bee_factory
 
 # test singleton
 """ 
@@ -114,4 +115,9 @@ rand_num = randint(0, len(pangrams))
 random_pangram = list(pangrams.keys())[rand_num]
 print(random_pangram)
 print(set(random_pangram))
+"""
+
+# test factory method
+"""
+factory = spelling_bee_factory.SpellingBeeFactory.build_game("Easy")
 """

@@ -14,9 +14,9 @@ class SpellingBeeServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.getWord = channel.unary_unary(
-                '/SpellingBeeService/getWord',
-                request_serializer=spelling__bee__pb2.GetWord.SerializeToString,
+        self.setWord = channel.unary_unary(
+                '/SpellingBeeService/setWord',
+                request_serializer=spelling__bee__pb2.SetWord.SerializeToString,
                 response_deserializer=spelling__bee__pb2.Response.FromString,
                 )
         self.createGame = channel.unary_unary(
@@ -29,7 +29,7 @@ class SpellingBeeServiceStub(object):
 class SpellingBeeServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def getWord(self, request, context):
+    def setWord(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -44,9 +44,9 @@ class SpellingBeeServiceServicer(object):
 
 def add_SpellingBeeServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'getWord': grpc.unary_unary_rpc_method_handler(
-                    servicer.getWord,
-                    request_deserializer=spelling__bee__pb2.GetWord.FromString,
+            'setWord': grpc.unary_unary_rpc_method_handler(
+                    servicer.setWord,
+                    request_deserializer=spelling__bee__pb2.SetWord.FromString,
                     response_serializer=spelling__bee__pb2.Response.SerializeToString,
             ),
             'createGame': grpc.unary_unary_rpc_method_handler(
@@ -65,7 +65,7 @@ class SpellingBeeService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def getWord(request,
+    def setWord(request,
             target,
             options=(),
             channel_credentials=None,
@@ -75,8 +75,8 @@ class SpellingBeeService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/SpellingBeeService/getWord',
-            spelling__bee__pb2.GetWord.SerializeToString,
+        return grpc.experimental.unary_unary(request, target, '/SpellingBeeService/setWord',
+            spelling__bee__pb2.SetWord.SerializeToString,
             spelling__bee__pb2.Response.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

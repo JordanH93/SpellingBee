@@ -20,13 +20,12 @@ Welcome to Spelling Bee!
 """
 
 
-
 class Client:
 
     @staticmethod
     def run():
         difficulty = select_difficulty()
-        score = 0
+        score = create_game(difficulty)
         while True:
             clear()
             print(BANNER)
@@ -36,20 +35,22 @@ class Client:
             print(resp.response)
             break
 
+
 # Submits our word for approval
 # - returns true / false
 # - returns score
 def submit_word(self):
     with grpc.insecure_channel("localhost:9999") as channel:
         stub = spelling_bee_pb2_grpc.SpellingBeeServiceStub(channel)
-        response = stub.getWord(spelling_bee_pb2.GetWord(get_word=self))
+        response = stub.setWord(spelling_bee_pb2.SetWord(set_word=self))
         return response
+
 
 def create_game(self):
     with grpc.insecure_channel("localhost:9999") as channel:
         stub = spelling_bee_pb2_grpc.SpellingBeeServiceStub(channel)
         response = stub.createGame(spelling_bee_pb2.GetGame(selection=self))
-        return response
+        return response.score
 
 
 # Using 150 line breaks instead of clear because cls does not work on some IDEs

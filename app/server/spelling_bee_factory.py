@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractstaticmethod
 
 
-class ISpellingBee(meta=ABCMeta):
+class ISpellingBee():
     @abstractstaticmethod
     def game_method():
         """Interface method"""
