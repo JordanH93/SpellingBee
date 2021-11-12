@@ -3,10 +3,16 @@ syntax = "proto3";
 service SpellingBeeService {
     rpc setWord (SetWord) returns (Response) {}
     rpc createGame (GetGame) returns (Game) {}
-    //rpc getWord (GetWord) returns (Word) {}
+    rpc getWord (GetWord) returns (Word) {}
 }
 
+message GetWord {
+    string request = 1;
+}
 
+message Word {
+    string word = 1;
+}
 
 message GetGame {
     string selection = 1;

@@ -30,6 +30,7 @@ class Client:
             clear()
             print(BANNER)
             print("Score: {} ".format(score))
+            print("{}".format(set(get_word(" "))))
             word = input(">>")
             resp = submit_word(word)
             print(resp.response)
@@ -51,6 +52,13 @@ def create_game(self):
         stub = spelling_bee_pb2_grpc.SpellingBeeServiceStub(channel)
         response = stub.createGame(spelling_bee_pb2.GetGame(selection=self))
         return response.score
+
+
+def get_word(self):
+    with grpc.insecure_channel("localhost:9999") as channel:
+        stub = spelling_bee_pb2_grpc.SpellingBeeServiceStub(channel)
+        response = stub.getWord(spelling_bee_pb2.GetWord(request=self))
+        return response.word
 
 
 # Using 150 line breaks instead of clear because cls does not work on some IDEs

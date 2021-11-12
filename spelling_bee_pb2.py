@@ -19,10 +19,74 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x12spelling_bee.proto\"\x1c\n\x07GetGame\x12\x11\n\tselection\x18\x01 \x01(\t\"\x15\n\x04Game\x12\r\n\x05score\x18\x01 \x01(\x05\"\x1b\n\x07SetWord\x12\x10\n\x08set_word\x18\x01 \x01(\t\"+\n\x08Response\x12\x10\n\x08response\x18\x01 \x01(\x08\x12\r\n\x05score\x18\x02 \x01(\x05\x32W\n\x12SpellingBeeService\x12 \n\x07setWord\x12\x08.SetWord\x1a\t.Response\"\x00\x12\x1f\n\ncreateGame\x12\x08.GetGame\x1a\x05.Game\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x12spelling_bee.proto\"\x1a\n\x07GetWord\x12\x0f\n\x07request\x18\x01 \x01(\t\"\x14\n\x04Word\x12\x0c\n\x04word\x18\x01 \x01(\t\"\x1c\n\x07GetGame\x12\x11\n\tselection\x18\x01 \x01(\t\"\x15\n\x04Game\x12\r\n\x05score\x18\x01 \x01(\x05\"\x1b\n\x07SetWord\x12\x10\n\x08set_word\x18\x01 \x01(\t\"+\n\x08Response\x12\x10\n\x08response\x18\x01 \x01(\x08\x12\r\n\x05score\x18\x02 \x01(\x05\x32u\n\x12SpellingBeeService\x12 \n\x07setWord\x12\x08.SetWord\x1a\t.Response\"\x00\x12\x1f\n\ncreateGame\x12\x08.GetGame\x1a\x05.Game\"\x00\x12\x1c\n\x07getWord\x12\x08.GetWord\x1a\x05.Word\"\x00\x62\x06proto3'
 )
 
 
+
+
+_GETWORD = _descriptor.Descriptor(
+  name='GetWord',
+  full_name='GetWord',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='request', full_name='GetWord.request', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=22,
+  serialized_end=48,
+)
+
+
+_WORD = _descriptor.Descriptor(
+  name='Word',
+  full_name='Word',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='word', full_name='Word.word', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=50,
+  serialized_end=70,
+)
 
 
 _GETGAME = _descriptor.Descriptor(
@@ -52,8 +116,8 @@ _GETGAME = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=22,
-  serialized_end=50,
+  serialized_start=72,
+  serialized_end=100,
 )
 
 
@@ -84,8 +148,8 @@ _GAME = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=52,
-  serialized_end=73,
+  serialized_start=102,
+  serialized_end=123,
 )
 
 
@@ -116,8 +180,8 @@ _SETWORD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=75,
-  serialized_end=102,
+  serialized_start=125,
+  serialized_end=152,
 )
 
 
@@ -155,15 +219,31 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=104,
-  serialized_end=147,
+  serialized_start=154,
+  serialized_end=197,
 )
 
+DESCRIPTOR.message_types_by_name['GetWord'] = _GETWORD
+DESCRIPTOR.message_types_by_name['Word'] = _WORD
 DESCRIPTOR.message_types_by_name['GetGame'] = _GETGAME
 DESCRIPTOR.message_types_by_name['Game'] = _GAME
 DESCRIPTOR.message_types_by_name['SetWord'] = _SETWORD
 DESCRIPTOR.message_types_by_name['Response'] = _RESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
+
+GetWord = _reflection.GeneratedProtocolMessageType('GetWord', (_message.Message,), {
+  'DESCRIPTOR' : _GETWORD,
+  '__module__' : 'spelling_bee_pb2'
+  # @@protoc_insertion_point(class_scope:GetWord)
+  })
+_sym_db.RegisterMessage(GetWord)
+
+Word = _reflection.GeneratedProtocolMessageType('Word', (_message.Message,), {
+  'DESCRIPTOR' : _WORD,
+  '__module__' : 'spelling_bee_pb2'
+  # @@protoc_insertion_point(class_scope:Word)
+  })
+_sym_db.RegisterMessage(Word)
 
 GetGame = _reflection.GeneratedProtocolMessageType('GetGame', (_message.Message,), {
   'DESCRIPTOR' : _GETGAME,
@@ -202,8 +282,8 @@ _SPELLINGBEESERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=149,
-  serialized_end=236,
+  serialized_start=199,
+  serialized_end=316,
   methods=[
   _descriptor.MethodDescriptor(
     name='setWord',
@@ -222,6 +302,16 @@ _SPELLINGBEESERVICE = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_GETGAME,
     output_type=_GAME,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='getWord',
+    full_name='SpellingBeeService.getWord',
+    index=2,
+    containing_service=None,
+    input_type=_GETWORD,
+    output_type=_WORD,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),

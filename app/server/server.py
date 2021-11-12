@@ -25,20 +25,24 @@ class Listener(spelling_bee_pb2_grpc.SpellingBeeServiceServicer):
 
     def createGame(self, request, context):
         # game_choice = 1
-        self.score = 0 # remove this if keeping a persistent score between games
+        self.score = 0  # remove this if keeping a persistent score between games
         self.game = spelling_bee_factory.SpellingBeeFactory().build_game(request.selection)
-        self.pangram_dict = create_dictionary.CreateDictionary(self.game.word_length, self.dictionary) # might be better to be contained within the factory subclasses
-        #word = generate_word(self.pangram_dict.pangrams)
-        print(request.selection)
-        print(self.score)
+        self.pangram_dict = create_dictionary.CreateDictionary(self.game.word_length,
+                                                               self.dictionary)  # might be better to be contained within the factory subclasses
+        # word = generate_word(self.pangram_dict.pangrams)
         return spelling_bee_pb2.Game(score=self.score)
-        # game code here
+
+    def getWord(self, request, context):
+        word = generate_word(self.pangram_dict.pangrams)
+        return spelling_bee_pb2.Word(word=word)
 
 
 def generate_word(self):
-    rand_num = randint(0, len(self.pangram_dict))
-    random_pangram = list(self.pangram_dict.keys())[rand_num]
-    return random_pangram
+    rand_num = randint(0, len(self))
+    random_pangram = list(self.keys())[rand_num]
+    print(random_pangram)
+    word = "".join(set(random_pangram))
+    return word
 
 
 def serve():

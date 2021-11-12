@@ -121,3 +121,12 @@ print(set(random_pangram))
 """
 factory = spelling_bee_factory.SpellingBeeFactory.build_game("Easy")
 """
+
+#test sets and strings
+"""
+str = "annabelle"
+set = set(str)
+print(set)
+newStr = "".join(set)
+print(newStr)
+"""
