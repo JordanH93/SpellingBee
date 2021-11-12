@@ -2,6 +2,15 @@ syntax = "proto3";
 
 service SpellingBeeService {
     rpc getWord (GetWord) returns (Response) {}
+    rpc createGame (GetGame) returns (Game) {}
+}
+
+message GetGame {
+    int32 selection = 1;
+}
+
+message Game {
+    string set_word = 1;
 }
 
 message GetWord {

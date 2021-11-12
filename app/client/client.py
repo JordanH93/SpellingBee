@@ -45,10 +45,19 @@ def submit_word(self):
         response = stub.getWord(spelling_bee_pb2.GetWord(get_word=self))
         return response
 
+def create_game(self):
+    with grpc.insecure_channel("localhost:9999") as channel:
+        stub = spelling_bee_pb2_grpc.SpellingBeeServiceStub(channel)
+        response = stub.createGame(spelling_bee_pb2.GetGame(selection=self))
+        return response
+
 
 # Using 150 line breaks instead of clear because cls does not work on some IDEs
+# - Can turn off if too annoying
 def clear():
-    print('\n' * 150)
+    clr = True
+    if clr:
+        print('\n' * 150)
 
 
 def select_difficulty():
@@ -58,11 +67,11 @@ def select_difficulty():
             print(BANNER)
             choice = int(input(WELCOME))
             if choice == 1:
-                return choice
+                return "Easy"
             elif choice == 2:
-                return choice
+                return "Moderate"
             elif choice == 3:
-                return choice
+                return "Difficult"
             else:
                 print("Please choose a valid difficulty")
         except:
