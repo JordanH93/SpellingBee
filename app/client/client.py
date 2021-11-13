@@ -29,11 +29,14 @@ class Client:
         self.show_words = False
         self.given_chars = None
         self.rand_char = None
+        self.words_remaining = 0
+        self.encouragement = "Beginner"
 
     def run(self):
         difficulty = self.select_difficulty()
         self.score = self.create_game(difficulty)
         response = self.get_word(" ")
+        self.words_remaining = response.remaining
         # response = set(self.get_word(" "))
         self.given_chars = set(response.word)
         self.rand_char = response.rand_char
@@ -48,6 +51,8 @@ class Client:
             self.score = resp.score
             if resp.response:
                 self.words.append(word)
+            self.words_remaining = resp.remaining
+            self.get_encouragement()
             #print(resp.response)
             #break
 
@@ -103,9 +108,10 @@ class Client:
 
     def banner(self):
         dashboard = """
-        Score: {}
+        {}: {}
+        Words remaining: {}
         Options: (Q)uit -- (W)ords
-        """.format(self.score)
+        """.format(self.encouragement, self.score, self.words_remaining)
         print(BANNER)
         letters = ""
         if self.show_words:
@@ -150,7 +156,30 @@ class Client:
             else:
                 input("Word must contain letters only.\nPress enter to continue.")
 
+    def get_encouragement(self):
+
+        if self.score < 3:
+            self.encouragement = "Beginner"
+        elif self.score < 7:
+            self.encouragement = "Good Start"
+        elif self.score < 11:
+            self.encouragement = "Moving Up"
+        elif self.score < 20:
+            self.encouragement = "Good"
+        elif self.score < 33:
+            self.encouragement = "Solid"
+        elif self.score < 53:
+            self.encouragement = "Nice"
+        elif self.score < 67:
+            self.encouragement = "Great"
+        elif self.score < 93:
+            self.encouragement = "Amazing"
+        else:
+            self.encouragement = "Genius"
+
+
     def print_word_list(self):
+        print("Words list:")
         for i in self.words:
             print(i)
 

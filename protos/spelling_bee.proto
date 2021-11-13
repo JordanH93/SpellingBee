@@ -13,6 +13,7 @@ message GetWord {
 message Word {
     string word = 1;
     string rand_char = 2;
+    int32 remaining = 3;
 }
 
 message GetGame {
@@ -30,4 +31,5 @@ message SetWord {
 message Response {
     bool response = 1;
     int32  score = 2;
+    int32 remaining = 3;
 }
