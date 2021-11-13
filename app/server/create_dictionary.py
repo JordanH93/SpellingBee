@@ -12,8 +12,10 @@ class CreateDictionary:
     def __init__(self, word_len, dictionary):
         self.pangrams = {}
         self.length = word_len
+        self.pangrams_subset = {}
+        self.dict = dictionary
 
-        for word in dictionary:
+        for word in self.dict:
             if self.is_pangram(word):
                 self.pangrams[word] = ""
 
@@ -22,3 +24,8 @@ class CreateDictionary:
             return True
         else:
             return False
+
+    def get_pangram_subsets(self, pangram):
+        for word in self.dict:
+            if set(word).issubset(set(pangram)):
+                self.pangrams_subset[word] = ""

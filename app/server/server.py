@@ -15,11 +15,13 @@ class Listener(spelling_bee_pb2_grpc.SpellingBeeServiceServicer):
         self.game = None
         self.pangram_dict = None
         self.score = 0
+        self.current_pangram = ""
+        self.current_pangram_subset_dict = {}
 
     def setWord(self, request, context):
         is_valid_word = False
         score = 5
-        if request.set_word == "client":
+        if request.set_word in self.current_pangram_subset_dict:
             is_valid_word = True
         return spelling_bee_pb2.Response(response=is_valid_word, score=score)
 
@@ -33,17 +35,23 @@ class Listener(spelling_bee_pb2_grpc.SpellingBeeServiceServicer):
         return spelling_bee_pb2.Game(score=self.score)
 
     def getWord(self, request, context):
-        word, rand_char = generate_word(self.pangram_dict.pangrams)
+        word, rand_char = self.generate_word(self.pangram_dict.pangrams)
         return spelling_bee_pb2.Word(word=word, rand_char=rand_char)
 
+    def generate_word(self, pangrams_dict):
+        rand_num = randint(0, len(pangrams_dict))
+        self.current_pangram = list(pangrams_dict.keys())[rand_num]
+        rand_char = "".join(set(self.current_pangram[randint(0, len(self.current_pangram))]))
+        word = "".join(set(self.current_pangram))
+        self.get_pangram_subsets(self.dictionary)
+        print("app.server.server.generate_word: Chosen Pangram = {}".format(self.current_pangram))
+        print(self.current_pangram)
+        return word, rand_char
 
-def generate_word(self):
-    rand_num = randint(0, len(self))
-    random_pangram = list(self.keys())[rand_num]
-    rand_char = "".join(set(random_pangram[randint(0, len(random_pangram))]))
-    word = "".join(set(random_pangram))
-    print("app.server.server.generate_word: Chosen Pangram = {}".format(random_pangram))
-    return word, rand_char
+    def get_pangram_subsets(self, dictionary):
+        for word in dictionary:
+            if set(word).issubset(set(self.current_pangram)):
+                self.current_pangram_subset_dict[word] = ""
 
 
 def serve():
