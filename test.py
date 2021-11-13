@@ -154,7 +154,14 @@ for i in mlist:
 """
 
 # test set subset
+"""
 set1 = {'h', 'g', 'f', 'd', 'a'}
 set2 = {'h', 'g', 'f', 'd', 'a'}
 
 print(set2.issubset(set1))
+"""
+s = "aaaa"
+
+print(s == len(s) * s[0])
+
+#print(s)

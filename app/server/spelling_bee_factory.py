@@ -11,6 +11,7 @@ class Easy(ISpellingBee):
     def __init__(self):
         self.word_length = 5
 
+
     def game_method(self):
         """Easy mode game method code here"""
 
@@ -18,6 +19,7 @@ class Easy(ISpellingBee):
 class Moderate(ISpellingBee):
     def __init__(self):
         self.word_length = 7
+
 
     def game_method(self):
         """Moderate mode game method code here"""

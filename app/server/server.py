@@ -20,10 +20,11 @@ class Listener(spelling_bee_pb2_grpc.SpellingBeeServiceServicer):
 
     def setWord(self, request, context):
         is_valid_word = False
-        score = 5
         if request.set_word in self.current_pangram_subset_dict:
             is_valid_word = True
-        return spelling_bee_pb2.Response(response=is_valid_word, score=score)
+            self.calculate_score(request.set_word)
+            del self.current_pangram_subset_dict[request.set_word]
+        return spelling_bee_pb2.Response(response=is_valid_word, score=self.score)
 
     def createGame(self, request, context):
         # game_choice = 1
@@ -45,13 +46,28 @@ class Listener(spelling_bee_pb2_grpc.SpellingBeeServiceServicer):
         word = "".join(set(self.current_pangram))
         self.get_pangram_subsets(self.dictionary)
         print("app.server.server.generate_word: Chosen Pangram = {}".format(self.current_pangram))
-        print(self.current_pangram)
+        #print(self.current_pangram)
         return word, rand_char
 
+    # 1. Class creates another dictionary of subsets of our pangram as a set
+    # - The new dictionary will only contain words greater or equal to length 4
+    # - less than or equal to the game word length (difficulty)
+    # - We are also excluding words that are the same char example: 'mmmm'
     def get_pangram_subsets(self, dictionary):
         for word in dictionary:
-            if set(word).issubset(set(self.current_pangram)):
-                self.current_pangram_subset_dict[word] = ""
+            if set(word).issubset(set(self.current_pangram)) and 4 <= len(word) <= self.game.word_length:
+                if word != len(word) * word[0]:
+                    self.current_pangram_subset_dict[word] = ""
+
+    def calculate_score(self, word):
+        if len(word) == 4:
+            self.score += 1
+        elif set(word) == set(self.current_pangram):
+            self.score += len(word) + 7
+        else:
+            self.score += len(word)
+
+
 
 
 def serve():

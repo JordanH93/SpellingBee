@@ -23,7 +23,7 @@ Welcome to Spelling Bee!
 
 class Client:
     def __init__(self):
-        #self.validate = validation.Validate()
+        # self.validate = validation.Validate()
         self.score = 0
         self.words = []
         self.show_words = False
@@ -34,10 +34,10 @@ class Client:
         difficulty = self.select_difficulty()
         self.score = self.create_game(difficulty)
         response = self.get_word(" ")
-        #response = set(self.get_word(" "))
+        # response = set(self.get_word(" "))
         self.given_chars = set(response.word)
         self.rand_char = response.rand_char
-        #print(self.rand_char)
+        # print(self.rand_char)
 
         while True:
             self.clear()
@@ -45,8 +45,11 @@ class Client:
 
             word = self.validate_input()
             resp = self.submit_word(word)
-            print(resp.response)
-            break
+            self.score = resp.score
+            if resp.response:
+                self.words.append(word)
+            #print(resp.response)
+            #break
 
     # 1. Submits our word for approval
     # - returns true / false
@@ -127,7 +130,7 @@ class Client:
                 elif choice == 'w':
                     if self.show_words:
                         self.show_words = False
-                    if not self.show_words:
+                    elif not self.show_words:
                         self.show_words = True
                     continue
                 elif len(choice) < 4:
@@ -144,12 +147,12 @@ class Client:
                     continue
                 else:
                     return choice
-
+            else:
+                input("Word must contain letters only.\nPress enter to continue.")
 
     def print_word_list(self):
         for i in self.words:
             print(i)
-
 
 
 if __name__ == "__main__":
