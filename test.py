@@ -8,6 +8,11 @@ from app.server import connections
 from app.server import spelling_bee_factory
 from app.client import validation
 
+
+"""
+Note: This script is used for testing but some tests may no longer be valid as code was refactored
+"""
+
 # test singleton
 """ 
 #test1 = dictionary.PangramDictionary() 

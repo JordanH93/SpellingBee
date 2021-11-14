@@ -1,8 +1,6 @@
 import spelling_bee_pb2
 import spelling_bee_pb2_grpc
 import grpc
-from app.client import validation
-import os
 
 BANNER = """
 ███████╗██████╗ ███████╗██╗     ██╗     ██╗███╗   ██╗ ██████╗     ██████╗ ███████╗███████╗
@@ -20,10 +18,20 @@ Welcome to Spelling Bee!
         .3) Difficult
 """
 
+"""
+1. This class will be run the game on the 'client' device
+- the user selects a difficulty (Beginner, moderate, difficult)
+- the client sends a request to the server for the chosen game type
+- The server responds with the letters for the game, the total score, the random mandatory character and words remaining
+- player score increments with each correctly entered word
+- word must be greater length 4, not be used already and contain the given characters
+- When all the possible word combinations are used the player is given the option to exit or play again. 
+
+"""
+
 
 class Client:
     def __init__(self):
-        # self.validate = validation.Validate()
         self.score = 0
         self.words = []
         self.show_words = False
@@ -41,12 +49,10 @@ class Client:
         self.given_chars = set(response.word)
         self.rand_char = response.rand_char
         self.total_score = response.total
-        # print(self.rand_char)
 
         while True:
             self.clear()
             self.banner()
-
             word = self.validate_input()
             resp = self.submit_word(word)
             self.score = resp.score
@@ -57,8 +63,7 @@ class Client:
             self.check_endgame()
 
     # 1. Submits our word for approval
-    # - returns true / false
-    # - returns score
+    # - returns true / false, score & words remaining
     def submit_word(self, word):
         with grpc.insecure_channel("localhost:9999") as channel:
             stub = spelling_bee_pb2_grpc.SpellingBeeServiceStub(channel)
@@ -75,6 +80,7 @@ class Client:
 
     # 1. Get a word to start playing the game
     # - Gets a word of length determined by game difficulty
+    # - returns words remaining
     def get_word(self, empty_string):
         with grpc.insecure_channel("localhost:9999") as channel:
             stub = spelling_bee_pb2_grpc.SpellingBeeServiceStub(channel)
@@ -106,6 +112,8 @@ class Client:
             except:
                 print("Please enter a valid option.")
 
+    # 1. Print our game banner
+    # - prints word of encouragement, score, optionally words submitted and our given letters
     def banner(self):
         dashboard = """
         {}: {}
@@ -124,6 +132,10 @@ class Client:
                 letters += i
         print("Letters: {}".format(letters))
 
+    # 1. validates the user input for their word attempt
+    # - We can quit with 'q' and toggle the word list with 'w'
+    # - If the word is greater than length 4, contains only given letters, contains the random character and hasn't been
+    # - used then it is sent to the server
     def validate_input(self):
         while True:
             self.clear()
@@ -156,8 +168,9 @@ class Client:
             else:
                 input("Word must contain letters only.\nPress enter to continue.")
 
+    # 1. calculates our score as a percentage of the total possible score.
+    # - prints a message depending on the score percent
     def get_encouragement(self):
-
         if ((self.score / self.total_score) * 100) < 3:
             self.encouragement = "Beginner"
         elif ((self.score / self.total_score) * 100) < 7:
@@ -177,6 +190,7 @@ class Client:
         else:
             self.encouragement = "Genius"
 
+    # 1. Checks if all given letter combinations have been used and ends or starts a new game per user choice
     def check_endgame(self):
         if self.words_remaining == 0:
             while True:
@@ -190,8 +204,7 @@ class Client:
                 else:
                     input("Please enter 'y' for yes or 'n' for no\nPress enter to continue.")
 
-
-
+    # 1. prints our valid submitted words
     def print_word_list(self):
         print("Words list:")
         for i in self.words:
