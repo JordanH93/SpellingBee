@@ -160,8 +160,10 @@ set2 = {'h', 'g', 'f', 'd', 'a'}
 
 print(set2.issubset(set1))
 """
+
+# check if word is made of the same chars
+"""
 s = "aaaa"
-
 print(s == len(s) * s[0])
-
 #print(s)
+"""

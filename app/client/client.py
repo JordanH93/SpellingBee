@@ -31,15 +31,16 @@ class Client:
         self.rand_char = None
         self.words_remaining = 0
         self.encouragement = "Beginner"
+        self.total_score = 0
 
     def run(self):
         difficulty = self.select_difficulty()
         self.score = self.create_game(difficulty)
         response = self.get_word(" ")
         self.words_remaining = response.remaining
-        # response = set(self.get_word(" "))
         self.given_chars = set(response.word)
         self.rand_char = response.rand_char
+        self.total_score = response.total
         # print(self.rand_char)
 
         while True:
@@ -53,8 +54,7 @@ class Client:
                 self.words.append(word)
             self.words_remaining = resp.remaining
             self.get_encouragement()
-            #print(resp.response)
-            #break
+            self.check_endgame()
 
     # 1. Submits our word for approval
     # - returns true / false
@@ -158,24 +158,38 @@ class Client:
 
     def get_encouragement(self):
 
-        if self.score < 3:
+        if ((self.score / self.total_score) * 100) < 3:
             self.encouragement = "Beginner"
-        elif self.score < 7:
+        elif ((self.score / self.total_score) * 100) < 7:
             self.encouragement = "Good Start"
-        elif self.score < 11:
+        elif ((self.score / self.total_score) * 100) < 11:
             self.encouragement = "Moving Up"
-        elif self.score < 20:
+        elif ((self.score / self.total_score) * 100) < 20:
             self.encouragement = "Good"
-        elif self.score < 33:
+        elif ((self.score / self.total_score) * 100) < 33:
             self.encouragement = "Solid"
-        elif self.score < 53:
+        elif ((self.score / self.total_score) * 100) < 53:
             self.encouragement = "Nice"
-        elif self.score < 67:
+        elif ((self.score / self.total_score) * 100) < 67:
             self.encouragement = "Great"
-        elif self.score < 93:
+        elif ((self.score / self.total_score) * 100) < 93:
             self.encouragement = "Amazing"
         else:
             self.encouragement = "Genius"
+
+    def check_endgame(self):
+        if self.words_remaining == 0:
+            while True:
+                self.clear()
+                print(BANNER)
+                choice = input("Congratulations! You win.\nNew game? (y/n)").lower()
+                if choice == 'y':
+                    self.run()
+                elif choice == 'n':
+                    exit()
+                else:
+                    input("Please enter 'y' for yes or 'n' for no\nPress enter to continue.")
+
 
 
     def print_word_list(self):

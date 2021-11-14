@@ -19,6 +19,7 @@ class Listener(spelling_bee_pb2_grpc.SpellingBeeServiceServicer):
         self.random_char = ""
         self.current_pangram_subset_dict = {}
         self.words_remaining = 0
+        self.total_score = 0
 
     def setWord(self, request, context):
         is_valid_word = False
@@ -26,19 +27,18 @@ class Listener(spelling_bee_pb2_grpc.SpellingBeeServiceServicer):
             is_valid_word = True
             self.calculate_score(request.set_word)
             del self.current_pangram_subset_dict[request.set_word]
-        words_remaining = len(self.current_pangram_subset_dict.keys())
+        self.words_remaining = len(self.current_pangram_subset_dict.keys())
         print("app.server.server.setWord: Chosen Pangram = {}".format(self.current_pangram))
         print("app.server.server.setWord: Words remaining = {}".format(self.words_remaining))
         print("app.server.server.setWord: Possible words = {}".format(self.current_pangram_subset_dict))
-        return spelling_bee_pb2.Response(response=is_valid_word, score=self.score, remaining=words_remaining)
+        print("app.server.server.setWord: Total score = {}".format(self.total_score))
+        return spelling_bee_pb2.Response(response=is_valid_word, score=self.score, remaining=self.words_remaining)
 
     def createGame(self, request, context):
-        # game_choice = 1
         self.score = 0  # remove this if keeping a persistent score between games
         self.game = spelling_bee_factory.SpellingBeeFactory().build_game(request.selection)
         self.pangram_dict = create_dictionary.CreateDictionary(self.game.word_length,
-                                                               self.dictionary)  # might be better to be contained within the factory subclasses
-        # word = generate_word(self.pangram_dict.pangrams)
+                                                               self.dictionary)
         return spelling_bee_pb2.Game(score=self.score)
 
     def getWord(self, request, context):
@@ -46,7 +46,9 @@ class Listener(spelling_bee_pb2_grpc.SpellingBeeServiceServicer):
         print("app.server.server.getWord: Chosen Pangram = {}".format(self.current_pangram))
         print("app.server.server.getWord: Words remaining = {}".format(self.words_remaining))
         print("app.server.server.getWord: Possible words = {}".format(self.current_pangram_subset_dict))
-        return spelling_bee_pb2.Word(word=word, rand_char=self.random_char, remaining=self.words_remaining)
+        print("app.server.server.getWord: Total score = {}".format(self.total_score))
+        return spelling_bee_pb2.Word(word=word, rand_char=self.random_char, remaining=self.words_remaining,
+                                     total=self.total_score)
 
     def generate_word(self, pangrams_dict):
         rand_num = randint(0, len(pangrams_dict))
@@ -55,9 +57,7 @@ class Listener(spelling_bee_pb2_grpc.SpellingBeeServiceServicer):
         word = "".join(set(self.current_pangram))
         self.get_pangram_subsets(self.dictionary)
         self.words_remaining = len(self.current_pangram_subset_dict.keys())
-        #print(self.words_remaining)
-
-        # print(self.current_pangram)
+        self.calculate_total_score(self.current_pangram_subset_dict)
         return word
 
     # 1. Class creates another dictionary of subsets of our pangram as a set
@@ -77,6 +77,21 @@ class Listener(spelling_bee_pb2_grpc.SpellingBeeServiceServicer):
             self.score += len(word) + 7
         else:
             self.score += len(word)
+
+    def calculate_total_score(self, sub_dictionary):
+        temp_dict = {}
+        for word in sub_dictionary:
+            if len(word) == 4:
+                self.total_score += 1
+            elif set(word).issubset(set(self.current_pangram)):
+                temp_dict[word] = ""
+                self.total_score += 7
+            else:
+                self.total_score += len(word)
+        # Add the char length of our pangram words
+        for temp_word in temp_dict:
+            self.total_score += len(temp_word)
+
 
 
 def serve():
