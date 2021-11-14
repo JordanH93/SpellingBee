@@ -4,6 +4,7 @@ import uuid
 - User has a name, email and password
 - uuid / email will be our primary keys used for retrieving users in our db/json files
 
+Note: Not used by any class yet
 """
 class User:
     def __init__(self, name, email, password):

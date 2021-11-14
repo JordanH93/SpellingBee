@@ -1,6 +1,9 @@
 from abc import ABCMeta, abstractstaticmethod
 
-
+"""
+1. This class contains our factory pattern for spelling bee game types
+- the user can choose a game type depending on pangram word length to make the game more challenging.
+"""
 class ISpellingBee():
     @abstractstaticmethod
     def game_method():

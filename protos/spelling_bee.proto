@@ -1,5 +1,5 @@
 syntax = "proto3";
-
+// 1. This is our proto file that is used to generate our *pb2.py and *pb2_grpc.py files
 service SpellingBeeService {
     rpc setWord (SetWord) returns (Response) {}
     rpc createGame (GetGame) returns (Game) {}
