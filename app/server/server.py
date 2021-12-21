@@ -1,5 +1,6 @@
 from concurrent import futures
 import grpc
+import base64
 import spelling_bee_pb2
 import spelling_bee_pb2_grpc
 from app.server import connections
@@ -31,6 +32,7 @@ class Listener(spelling_bee_pb2_grpc.SpellingBeeServiceServicer):
         self.current_pangram_subset_dict = {}
         self.words_remaining = 0
         self.total_score = 0
+        self.session_id = ""
 
     # 1. This method receives the submitted word from the client and reviews it to see if it is valid
     # - if it is valid we remove the word from the subset dictionary, update the score and update our remaining words
@@ -63,8 +65,9 @@ class Listener(spelling_bee_pb2_grpc.SpellingBeeServiceServicer):
         print("app.server.server.getWord: Words remaining = {}".format(self.words_remaining))
         print("app.server.server.getWord: Possible words = {}".format(self.current_pangram_subset_dict))
         print("app.server.server.getWord: Total score = {}".format(self.total_score))
+        print("{}".format(self.session_id))
         return spelling_bee_pb2.Word(word=word, rand_char=self.random_char, remaining=self.words_remaining,
-                                     total=self.total_score)
+                                     total=self.total_score, session_id=self.session_id)
 
     # 1. This method generates our random letters
     # - It also chooses our random character, creates our subset dictionary, calc words remaining and total score
@@ -76,6 +79,7 @@ class Listener(spelling_bee_pb2_grpc.SpellingBeeServiceServicer):
         self.get_pangram_subsets(self.dictionary)
         self.words_remaining = len(self.current_pangram_subset_dict.keys())
         self.calculate_total_score(self.current_pangram_subset_dict)
+        self.session_id = base64.b64encode(self.current_pangram.encode("utf-8"))
         return word
 
     # 1. Class creates another dictionary of subsets of our pangram as a set

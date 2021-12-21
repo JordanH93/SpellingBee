@@ -10,12 +10,22 @@ BANNER = """
 ███████║██║     ███████╗███████╗███████╗██║██║ ╚████║╚██████╔╝    ██████╔╝███████╗███████╗
 ╚══════╝╚═╝     ╚══════╝╚══════╝╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝     ╚═════╝ ╚══════╝╚══════╝
 """
-WELCOME = """
-Welcome to Spelling Bee!
+DIFFICULTY = """
         Please choose a difficulty to begin playing:
         .1) Easy
         .2) Moderate
         .3) Difficult
+"""
+WELCOME = """
+Welcome to Spelling Bee!
+        Please choose a game mode:
+        .1) Single Player
+        .2) Multiplayer
+"""
+MULTI = """
+        Please choose an option:
+        .1) Start game
+        .2) Join game
 """
 
 """
@@ -35,13 +45,44 @@ class Client:
         self.score = 0
         self.words = []
         self.show_words = False
+        self.show_code = False
         self.given_chars = None
         self.rand_char = None
         self.words_remaining = 0
         self.encouragement = "Beginner"
         self.total_score = 0
+        self.isMultiplayer = False
+        self.name = ""
+        self.invite_id = ""
 
     def run(self):
+        if self.is_single_player():
+            self.start_game()
+            self.play()
+        else:
+            self.isMultiplayer = True
+            if self.is_join_game():
+                self.name = self.get_name()
+                self.join_game()
+            else:
+                self.name = self.get_name()
+                self.start_game()
+                self.play()
+
+    def join_game(self):
+        print("test")
+
+    def get_name(self):
+        while True:
+            self.clear()
+            print(BANNER)
+            choice = input("Please enter name: \n>>").lower()
+            if choice.isalpha() and len(choice) > 2:
+                return choice
+            else:
+                input("Word must contain letters only and be greater than two characters.\nPress enter to continue.")
+
+    def start_game(self):
         difficulty = self.select_difficulty()
         self.score = self.create_game(difficulty)
         response = self.get_word(" ")
@@ -49,7 +90,9 @@ class Client:
         self.given_chars = set(response.word)
         self.rand_char = response.rand_char
         self.total_score = response.total
+        self.invite_id = response.session_id
 
+    def play(self):
         while True:
             self.clear()
             self.banner()
@@ -61,6 +104,36 @@ class Client:
             self.words_remaining = resp.remaining
             self.get_encouragement()
             self.check_endgame()
+
+    def is_single_player(self):
+        while True:
+            try:
+                self.clear()
+                print(BANNER)
+                choice = int(input(WELCOME))
+                if choice == 1:
+                    return True
+                elif choice == 2:
+                    return False
+                else:
+                    print("Please choose a valid difficulty")
+            except:
+                print("Please enter a valid option.")
+
+    def is_join_game(self):
+        while True:
+            try:
+                self.clear()
+                print(BANNER)
+                choice = int(input(MULTI))
+                if choice == 1:
+                    return False
+                elif choice == 2:
+                    return True
+                else:
+                    print("Please choose a valid difficulty")
+            except:
+                print("Please enter a valid option.")
 
     # 1. Submits our word for approval
     # - returns true / false, score & words remaining
@@ -100,7 +173,7 @@ class Client:
             try:
                 self.clear()
                 print(BANNER)
-                choice = int(input(WELCOME))
+                choice = int(input(DIFFICULTY))
                 if choice == 1:
                     return "Easy"
                 elif choice == 2:
@@ -115,11 +188,18 @@ class Client:
     # 1. Print our game banner
     # - prints word of encouragement, score, optionally words submitted and our given letters
     def banner(self):
-        dashboard = """
-        {}: {}
-        Words remaining: {}
-        Options: (Q)uit -- (W)ords
-        """.format(self.encouragement, self.score, self.words_remaining)
+        if self.isMultiplayer:
+            dashboard = """
+            {}: {}
+            Words remaining: {}
+            Options: (Q)uit -- (W)ords -- (I)nvite
+            """.format(self.encouragement, self.score, self.words_remaining)
+        else:
+            dashboard = """
+            {}: {}
+            Words remaining: {}
+            Options: (Q)uit -- (W)ords
+            """.format(self.encouragement, self.score, self.words_remaining)
         print(BANNER)
         letters = ""
         if self.show_words:
@@ -131,6 +211,8 @@ class Client:
             else:
                 letters += i
         print("Letters: {}".format(letters))
+        if self.show_code and self.isMultiplayer:
+            print(f"Invite code: {self.invite_id}")
 
     # 1. validates the user input for their word attempt
     # - We can quit with 'q' and toggle the word list with 'w'
@@ -150,6 +232,12 @@ class Client:
                         self.show_words = False
                     elif not self.show_words:
                         self.show_words = True
+                    continue
+                elif choice == 'i' and self.isMultiplayer:
+                    if self.show_code:
+                        self.show_code = False
+                    elif not self.show_code:
+                        self.show_code = True
                     continue
                 elif len(choice) < 4:
                     input("Word must be more than 4 characters\nPress enter to continue.")

@@ -15,6 +15,7 @@ message Word {
     string rand_char = 2;
     int32 remaining = 3;
     int32 total = 4;
+    string session_id = 5;
 }
 
 message GetGame {

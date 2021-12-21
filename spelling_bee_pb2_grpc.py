@@ -6,7 +6,8 @@ import spelling_bee_pb2 as spelling__bee__pb2
 
 
 class SpellingBeeServiceStub(object):
-    """Missing associated documentation comment in .proto file."""
+    """1. This is our proto file that is used to generate our *pb2.py and *pb2_grpc.py files
+    """
 
     def __init__(self, channel):
         """Constructor.
@@ -32,7 +33,8 @@ class SpellingBeeServiceStub(object):
 
 
 class SpellingBeeServiceServicer(object):
-    """Missing associated documentation comment in .proto file."""
+    """1. This is our proto file that is used to generate our *pb2.py and *pb2_grpc.py files
+    """
 
     def setWord(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -78,7 +80,8 @@ def add_SpellingBeeServiceServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class SpellingBeeService(object):
-    """Missing associated documentation comment in .proto file."""
+    """1. This is our proto file that is used to generate our *pb2.py and *pb2_grpc.py files
+    """
 
     @staticmethod
     def setWord(request,

@@ -6,7 +6,7 @@ import json
 from app.objects import user
 from app.server import connections
 from app.server import spelling_bee_factory
-from app.client import validation
+#from app.client import validation
 
 
 """
